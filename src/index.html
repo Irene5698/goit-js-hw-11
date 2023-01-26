@@ -8,7 +8,6 @@
     <script type="module" src="./index.js"></script>
   </head>
   <body>
-  
     <form class="search-form" id="search-form">
       <input
         type="text"
@@ -16,7 +15,15 @@
         autocomplete="off"
         placeholder="Search images..."
       />
-      <button type="submit">Search</button>
+      <button class="button-search" type="submit">
+        <svg width="20" height="20" class="svg">
+          <use href="./images/symbol-defs.svg#icon-search"></use>
+        </svg>
+      </button>
     </form>
+    <div class="gallery"></div>
+    <div class="js-guard"></div>
+
+    <script type="module" src="./index.js"></script>
   </body>
 </html>
