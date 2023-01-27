@@ -37,6 +37,7 @@ async function getData(query, page) {
     const data = await fetchApiImages(query, page);
     imageList(data);
     gallery.refresh();
+    observer.observe(refs.formGuard);
     return data;
   } catch (error) {
     console.log(error.message);
@@ -109,3 +110,24 @@ const options = {
   rootMargin: '250px',
   threshold: 1.0,
 };
+
+let observer = new IntersectionObserver(onLoad, options);
+
+function onLoad(entries, observer) {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      page += 1;
+      getData(refs.formInput.value, page).then(data => {
+        const {
+          data: { hits },
+        } = data;
+
+        if (page === 13 || hits.length < 40) {
+          observer.unobserve(refs.formGuard);
+        }
+      }).catch(err => console.log(err))
+    }
+  });
+}
+
+

@@ -9,4 +9,4 @@ export async function fetchApiImages(query, page) {
   );
   return response;
 }
-fetchApiImages();
+
