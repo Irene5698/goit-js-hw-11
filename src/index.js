@@ -23,7 +23,7 @@ refs.formInput.addEventListener('input', onInput);
 function onSubmitForm(e) {
   e.preventDefault();
   page = 1;
-  getData(refs.formInput.value, page);
+  getData(refs.formInput.value.trim(), page);
 }
 
 function onInput(e) {
@@ -35,13 +35,18 @@ function onInput(e) {
 async function getData(query, page) {
   try {
     const data = await fetchApiImages(query, page);
+    if(query.length === 0) {
+      return
+    }
     imageList(data);
     gallery.refresh();
     observer.observe(refs.formGuard);
     return data;
+
   } catch (error) {
     console.log(error.message);
   }
+ 
 }
 
 function imageList({ data: { hits: photoCard }, data: { totalHits } }) {
@@ -103,6 +108,7 @@ function notifyOptions(photoCard, totalHits) {
     console.log(page);
     Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
   }
+
 }
 
 const options = {
@@ -125,7 +131,7 @@ function onLoad(entries, observer) {
         if (page === 13 || hits.length < 40) {
           observer.unobserve(refs.formGuard);
         }
-      }).catch(err => console.log(err))
+      }). catch(err => console.log(err))
     }
   });
 }
