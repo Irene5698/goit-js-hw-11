@@ -18,7 +18,7 @@ const refs = {
 };
 
 refs.searchForm.addEventListener('submit', onSubmitForm);
-refs.formInput.addEventListener('input', onInput);
+
 
 function onSubmitForm(e) {
   e.preventDefault();
@@ -26,27 +26,20 @@ function onSubmitForm(e) {
   getData(refs.formInput.value.trim(), page);
 }
 
-function onInput(e) {
-  if (e.target.value) {
-    refs.formGallery.innerHTML = '';
-  }
-}
 
 async function getData(query, page) {
   try {
     const data = await fetchApiImages(query, page);
-    if(query.length === 0) {
-      return
+    if (query.length === 0) {
+      return;
     }
     imageList(data);
     gallery.refresh();
     observer.observe(refs.formGuard);
     return data;
-
   } catch (error) {
     console.log(error.message);
   }
- 
 }
 
 function imageList({ data: { hits: photoCard }, data: { totalHits } }) {
@@ -108,7 +101,6 @@ function notifyOptions(photoCard, totalHits) {
     console.log(page);
     Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
   }
-
 }
 
 const options = {
@@ -123,17 +115,17 @@ function onLoad(entries, observer) {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       page += 1;
-      getData(refs.formInput.value, page).then(data => {
-        const {
-          data: { hits },
-        } = data;
+      getData(refs.formInput.value, page)
+        .then(data => {
+          const {
+            data: { hits },
+          } = data;
 
-        if (page === 13 || hits.length < 40) {
-          observer.unobserve(refs.formGuard);
-        }
-      }). catch(err => console.log(err))
+          if (page === 13 || hits.length < 40) {
+            observer.unobserve(refs.formGuard);
+          }
+        })
+        .catch(err => console.log(err));
     }
   });
 }
-
-
