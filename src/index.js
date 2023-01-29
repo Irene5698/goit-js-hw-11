@@ -25,7 +25,7 @@ function onSubmitForm(e) {
   if (refs.formInput.value.trim() === '') {
     return;
   }
-  getData(refs.formInput.value.trim(), page);
+  getData(refs.formInput.value, page);
 }
 
 async function getData(query, page) {
