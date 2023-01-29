@@ -32,7 +32,13 @@ async function getData(query, page) {
   try {
     const data = await fetchApiImages(query, page);
 
-    imageList(data);
+    if(data.data.total === 0) {
+      return Notiflix.Notify.failure(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
+    }
+
+    imageList(data)
     gallery.refresh();
     observer.observe(refs.formGuard);
     return data;
