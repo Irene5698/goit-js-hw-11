@@ -21,12 +21,15 @@ refs.searchForm.addEventListener('submit', onSubmitForm);
 
 function onSubmitForm(e) {
   e.preventDefault();
+  refs.formGallery.innerHTML = '';
   page = 1;
   if (refs.formInput.value.trim() === '') {
     return;
   }
   getData(refs.formInput.value, page);
+  
 }
+
 
 async function getData(query, page) {
   try {
@@ -37,7 +40,6 @@ async function getData(query, page) {
         'Sorry, there are no images matching your search query. Please try again.'
       );
     }
-
     imageList(data)
     gallery.refresh();
     observer.observe(refs.formGuard);
