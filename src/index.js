@@ -19,20 +19,19 @@ const refs = {
 
 refs.searchForm.addEventListener('submit', onSubmitForm);
 
-
 function onSubmitForm(e) {
   e.preventDefault();
   page = 1;
+  if (refs.formInput.value.trim() === '') {
+    return;
+  }
   getData(refs.formInput.value.trim(), page);
 }
-
 
 async function getData(query, page) {
   try {
     const data = await fetchApiImages(query, page);
-    if (query.length === 0) {
-      return;
-    }
+
     imageList(data);
     gallery.refresh();
     observer.observe(refs.formGuard);
